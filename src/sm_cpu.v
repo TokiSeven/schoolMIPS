@@ -25,7 +25,7 @@ module sm_cpu
     wire        regWrite;
     wire        aluSrc;
     wire        aluZero;
-    wire [ 2:0] aluControl;
+    wire [ 3:0] aluControl;
 
     //program counter
     wire [31:0] pc;
@@ -103,7 +103,7 @@ module sm_control
     output reg       regDst, 
     output reg       regWrite, 
     output reg       aluSrc,
-    output reg [2:0] aluControl
+    output reg [3:0] aluControl
 );
     reg          branch;
     reg          condZero;
@@ -140,7 +140,7 @@ module sm_alu
 (
     input  [31:0] srcA,
     input  [31:0] srcB,
-    input  [ 2:0] oper,
+    input  [ 3:0] oper,
     input  [ 4:0] shift,
     output        zero,
     output reg [31:0] result

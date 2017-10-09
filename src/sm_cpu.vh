@@ -9,12 +9,12 @@
  */ 
 
 //ALU commands
-`define ALU_ADD     3'b000
-`define ALU_OR      3'b001
-`define ALU_LUI     3'b010
-`define ALU_SRL     3'b011
-`define ALU_SLTU    3'b100
-`define ALU_SUBU    3'b101
+`define ALU_ADD     3'b0000
+`define ALU_OR      3'b0001
+`define ALU_LUI     3'b0010
+`define ALU_SRL     3'b0011
+`define ALU_SLTU    3'b0100
+`define ALU_SUBU    3'b0101
 
 //instruction operation code
 `define C_SPEC      6'b000000 // Special instructions (depends on function field)
