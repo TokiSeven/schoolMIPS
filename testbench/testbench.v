@@ -100,8 +100,10 @@ module sm_testbench;
                 { `C_SPEC,  `F_SUBU } : $write ("subu  $%1d, $%1d, $%1d", cmdRd, cmdRs, cmdRt);
 
                 { `C_ADDIU, `F_ANY  } : $write ("addiu $%1d, $%1d, %1d", cmdRt, cmdRs, cmdImm);
-                { `C_LUI,   `F_ANY  } : $write ("lui   $%1d, %1d",       cmdRt, cmdImm);
-                { `C_ORI,   `F_ANY  } : $write ("ori   $%1d, $%1d, %1d", cmdRt, cmdRs, cmdImm);
+                { `C_SPEC,  `F_SRLV } : $write ("srlv  $%1d, $%1d, $%1d", cmdRd, cmdRt, cmdRs);
+                { `C_BGEZ,  `F_ANY  } : $write ("bgez   $%1d, %1d", cmdRt, cmdImm);
+                { `C_LUI,   `F_ANY  } : $write ("lui   $%1d, %1d", cmdRt, cmdImm);
+                { `C_SPEC,  `F_NOR  } : $write ("nor   $%1d, %1d", cmdRt, cmdImm);
 
                 { `C_BEQ,   `F_ANY  } : $write ("beq   $%1d, $%1d, %1d", cmdRs, cmdRt, cmdImmS + 1);
                 { `C_BNE,   `F_ANY  } : $write ("bne   $%1d, $%1d, %1d", cmdRs, cmdRt, cmdImmS + 1);

@@ -39,7 +39,7 @@
                               //         Rd = Rs | Rt
 `define F_AND       6'b100100 // R-type, Logical AND
 								//Rd = Rs & Rt
-`define F_SRLV      6'b000011 // R-type, shift right logical variable
+`define F_SRLV      6'b000110 // R-type, shift right logical variable
 							//         R[rd] = [rt] >> [rs] 4:0
 `define F_SRL       6'b000010 // R-type, Shift Right Logical
                               //         Rd = Rs∅ >> shift

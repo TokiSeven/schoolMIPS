@@ -1,0 +1,14 @@
+
+program.elf:     формат файла elf32-tradlittlemips
+
+
+Дизассемблирование раздела .text:
+
+00000000 <.text>:
+   0:	24090007 	addiu	t1,zero,7
+   4:	240a0002 	addiu	t2,zero,2
+   8:	01491006 	srlv	v0,t1,t2
+
+0000000c <end>:
+   c:	1000ffff 	beqz	zero,c <end>
+  10:	00000000 	sll	zero,zero,0x0
