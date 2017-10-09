@@ -32,7 +32,7 @@ module sm_cpu
     wire [31:0] pcBranch;
     wire [31:0] pcNext  = pc + 1;
     wire [31:0] pc_new   = ~pcSrc ? pcNext : pcBranch;
-    sm_register r_pc(clk ,rst_n, pc_new, pc);
+    sm_register r_pc(clk, rst_n, pc_new, pc);
 
     //program memory access
     assign imAddr = pc;
@@ -75,7 +75,7 @@ module sm_cpu
         .srcB       ( srcB         ),
         .oper       ( aluControl   ),
         .shift      ( instr[10:6 ] ),
-        .zero       ( aluZero      ),
+        .sign       ( aluZero      ),
         .result     ( wd3          ) 
     );
 
@@ -122,10 +122,13 @@ module sm_control
 
             { `C_SPEC,  `F_ADDU } : begin regDst = 1'b1; regWrite = 1'b1; aluControl = `ALU_ADD;  end
             { `C_SPEC,  `F_OR   } : begin regDst = 1'b1; regWrite = 1'b1; aluControl = `ALU_OR;   end
+            { `C_SPEC,  `F_AND  } : begin regDst = 1'b1; regWrite = 1'b1; aluControl = `ALU_AND;   end
             { `C_SPEC,  `F_SRL  } : begin regDst = 1'b1; regWrite = 1'b1; aluControl = `ALU_SRL;  end
             { `C_SPEC,  `F_SLTU } : begin regDst = 1'b1; regWrite = 1'b1; aluControl = `ALU_SLTU; end
             { `C_SPEC,  `F_SUBU } : begin regDst = 1'b1; regWrite = 1'b1; aluControl = `ALU_SUBU; end
 
+            { `C_SPEC,  `F_SRLV } : begin regDst = 1'b1; regWrite = 1'b1; aluControl = `ALU_SRLV;  end
+            { `C_BGEZ,  `F_ANY  } : begin regWrite = 1'b1; aluSrc = 1'b1; aluControl = `ALU_AND;  end
             { `C_ADDIU, `F_ANY  } : begin regWrite = 1'b1; aluSrc = 1'b1; aluControl = `ALU_ADD;  end
             { `C_LUI,   `F_ANY  } : begin regWrite = 1'b1; aluSrc = 1'b1; aluControl = `ALU_LUI;  end
 
@@ -142,7 +145,7 @@ module sm_alu
     input  [31:0] srcB,
     input  [ 3:0] oper,
     input  [ 4:0] shift,
-    output        zero,
+    output        sign,
     output reg [31:0] result
 );
     always @ (*) begin
@@ -150,14 +153,17 @@ module sm_alu
             default   : result = srcA + srcB;
             `ALU_ADD  : result = srcA + srcB;
             `ALU_OR   : result = srcA | srcB;
+            `ALU_AND  : result = srcA & srcB;
             `ALU_LUI  : result = (srcB << 16);
-            `ALU_SRL  : result = srcB >> shift;
+            `ALU_SRL  : result = srcB >> shift; 
+            `ALU_SRLV : result = srcA >> srcB;
             `ALU_SLTU : result = (srcA < srcB) ? 1 : 0;
             `ALU_SUBU : result = srcA - srcB;
+            `ALU_NOR  : result = ~(srcA | srcB);
         endcase
     end
 
-    assign zero   = (result == 0);
+    assign sign = (result == 0);
 endmodule
 
 module sm_register_file
