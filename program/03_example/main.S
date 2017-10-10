@@ -1,5 +1,11 @@
 
-li $t1, 7
-li $t2, 2
-srlv $v0, $t1, $t2
-end:    b       end
+li $v0, 7
+li $t1, 1
+dec: subu $v0, $t1
+bgez $v0, dec
+end: b end
+
+
+
+
+

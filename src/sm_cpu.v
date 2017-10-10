@@ -128,11 +128,11 @@ module sm_control
             { `C_SPEC,  `F_SUBU } : begin regDst = 1'b1; regWrite = 1'b1; aluControl = `ALU_SUBU; end
             { `C_SPEC,  `F_SRLV } : begin regDst = 1'b1; regWrite = 1'b1; aluControl = `ALU_SRLV;  end
 
-            { `C_BGEZ,  `F_ANY  } : begin regWrite = 1'b1; aluSrc = 1'b1; aluControl = `ALU_AND;  end
             { `C_ADDIU, `F_ANY  } : begin regWrite = 1'b1; aluSrc = 1'b1; aluControl = `ALU_ADD;  end
             { `C_LUI,   `F_ANY  } : begin regWrite = 1'b1; aluSrc = 1'b1; aluControl = `ALU_LUI;  end
             { `C_BEQ,   `F_ANY  } : begin branch = 1'b1; condZero = 1'b1; aluControl = `ALU_SUBU; end
-            { `C_BNE,   `F_ANY  } : begin branch = 1'b1; aluControl = `ALU_SUBU; end
+            { `C_BNE,   `F_ANY  } : begin branch = 1'b1; aluControl = `ALU_SUBU;    end
+            { `C_BGEZ,  `F_ANY  } : begin branch = 1'b1; condZero = 1'b1; aluControl = `ALU_NOTNEG;  end
         endcase
     end
 endmodule
@@ -149,16 +149,17 @@ module sm_alu
 );
     always @ (*) begin
         case (oper)
-            default   : result = srcA + srcB;
-            `ALU_ADD  : result = srcA + srcB;
-            `ALU_OR   : result = srcA | srcB;
-            `ALU_AND  : result = srcA & srcB;
-            `ALU_LUI  : result = (srcB << 16);
-            `ALU_SRL  : result = srcB >> shift; 
-            `ALU_SRLV : result = srcB >> srcA;
-            `ALU_SLTU : result = (srcA < srcB) ? 1 : 0;
-            `ALU_SUBU : result = srcA - srcB;
-            `ALU_NOR  : result = ~(srcA | srcB);
+            default     : result = srcA + srcB;
+            `ALU_ADD    : result = srcA + srcB;
+            `ALU_OR     : result = srcA | srcB;
+            `ALU_AND    : result = srcA & srcB;
+            `ALU_LUI    : result = (srcB << 16);
+            `ALU_SRL    : result = srcB >> shift; 
+            `ALU_SRLV   : result = srcB >> srcA;
+            `ALU_SLTU   : result = (srcA < srcB) ? 1 : 0;
+            `ALU_SUBU   : result = srcA - srcB;
+            `ALU_NOR    : result = ~(srcA | srcB);
+            //`ALU_NOTNEG : result = ; check if srcB >=0
         endcase
     end
 
