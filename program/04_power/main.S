@@ -3,8 +3,8 @@ li $t1, 5
 li $t2, 4
 li $t3, 1
 cycle: 
-	beq $t2, 0, end
-	li $t4, 5
+	beq $t2, $t3, end
+	addu $t4, $0, $t1
 	addu $t5, $0, $v0
 	multiply:
 		beq $t4, 0, next

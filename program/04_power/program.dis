@@ -11,7 +11,7 @@ program.elf:     формат файла elf32-tradlittlemips
    c:	240b0001 	addiu	t3,zero,1
 
 00000010 <cycle>:
-  10:	1140000d 	beqz	t2,48 <end>
+  10:	114b000d 	beq	t2,t3,48 <end>
   14:	00000000 	sll	zero,zero,0x0
   18:	240c0005 	addiu	t4,zero,5
   1c:	00026821 	addu	t5,zero,v0
