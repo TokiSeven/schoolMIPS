@@ -5,15 +5,15 @@ program.elf:     формат файла elf32-tradlittlemips
 Дизассемблирование раздела .text:
 
 00000000 <.text>:
-   0:	24020005 	addiu	v0,zero,5
-   4:	24090005 	addiu	t1,zero,5
+   0:	24020006 	addiu	v0,zero,6
+   4:	24090006 	addiu	t1,zero,6
    8:	240a0004 	addiu	t2,zero,4
    c:	240b0001 	addiu	t3,zero,1
 
 00000010 <cycle>:
   10:	114b000d 	beq	t2,t3,48 <end>
   14:	00000000 	sll	zero,zero,0x0
-  18:	240c0005 	addiu	t4,zero,5
+  18:	00096021 	addu	t4,zero,t1
   1c:	00026821 	addu	t5,zero,v0
 
 00000020 <multiply>:

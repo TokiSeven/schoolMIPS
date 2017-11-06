@@ -1,5 +1,5 @@
-li $v0, 5
-li $t1, 5
+li $v0, 6
+li $t1, 6
 li $t2, 4
 li $t3, 1
 cycle: 

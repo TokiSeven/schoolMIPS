@@ -132,7 +132,7 @@ module sm_control
             { `C_LUI,   `F_ANY  } : begin regWrite = 1'b1; aluSrc = 1'b1; aluControl = `ALU_LUI;  end
             { `C_BEQ,   `F_ANY  } : begin branch = 1'b1; condZero = 1'b1; aluControl = `ALU_SUBU; end
             { `C_BNE,   `F_ANY  } : begin branch = 1'b1; aluControl = `ALU_SUBU;    end
-            { `C_BGEZ,  `F_ANY  } : begin branch = 1'b1; condZero = 1'b1; aluControl = `ALU_NOTNEG;  end
+            { `C_BGEZ,  `F_ANY  } : begin branch = 1'b1; aluControl = `ALU_NOTNEG;  end
         endcase
     end
 endmodule
@@ -159,7 +159,7 @@ module sm_alu
             `ALU_SLTU   : result = (srcA < srcB) ? 1 : 0;
             `ALU_SUBU   : result = srcA - srcB;
             `ALU_NOR    : result = ~(srcA | srcB);
-            //`ALU_NOTNEG : result = ; check if srcB >=0
+            `ALU_NOTNEG : result = srcB >=0;
         endcase
     end
 
