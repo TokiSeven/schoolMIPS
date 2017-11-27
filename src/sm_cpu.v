@@ -65,6 +65,7 @@ module sm_cpu
     );
 
     //sign extension
+	 wire signExtend;
     wire [31:0] signImm = (exControl) ? {{24 { exData[7] }}, exData[7:0] } 
     : (~signExtend) ? { {16 { instr[15] }}, instr[15:0] } : { {16 {1'b0}}, instr[15:0] };
 	assign pcBranch = pcNext + signImm;

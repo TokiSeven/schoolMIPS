@@ -46,7 +46,9 @@ begin
             1'b1, digit2[6], digit2[2], 1'b0, digit2[3], digit2[4]};
     2'b10 : seven_segments = {1'b1, digit3[0], digit3[5], 2'b10, digit3[1], 
             1'b1, digit3[6], digit3[2], 1'b0, digit3[3], digit3[4]};
+	 endcase
 end
+endmodule
 
 //--------------------------------------------------------------------
 

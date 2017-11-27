@@ -44,7 +44,7 @@ module sm_top
         .regData    ( regData   ),
         .imAddr     ( imAddr    ),
         .imData     ( imData    ),
-        .extData    ( exData   )
+        .exData     ( exData   )
     );
 
 endmodule

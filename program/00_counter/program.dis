@@ -1,8 +1,8 @@
 
-program.elf:     формат файла elf32-tradlittlemips
+program.elf:     file format elf32-tradlittlemips
 
 
-Дизассемблирование раздела .text:
+Disassembly of section .text:
 
 00000000 <.text>:
    0:	00001025 	or	v0,zero,zero
