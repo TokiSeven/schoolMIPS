@@ -32,6 +32,7 @@
                               //         Rt = Immed << 16
 `define C_BNE       6'b000101 // I-type, Branch on Not Equal
                               //         if (Rs != Rt) PC += (int)offset
+`define C_EXT       6'b111111 // I-type, External Input Immediate
 
 //instruction function field
 `define F_ADDU      6'b100001 // R-type, Integer Add Unsigned

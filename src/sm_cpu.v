@@ -17,7 +17,8 @@ module sm_cpu
     input   [ 4:0]  regAddr,    // debug access reg address
     output  [31:0]  regData,    // debug access reg data
     output  [31:0]  imAddr,     // instruction memory address
-    input   [31:0]  imData      // instruction memory data
+    input   [31:0]  imData,     // instruction memory data
+    input	[7:0]	exData		// External data from GPIOs 	
 );
     //control wires
     wire        pcSrc;
@@ -26,6 +27,7 @@ module sm_cpu
     wire        aluSrc;
     wire        aluZero;
     wire [ 3:0] aluControl;
+    wire		exControl;
 
     //program counter
     wire [31:0] pc;
@@ -63,15 +65,16 @@ module sm_cpu
     );
 
     //sign extension
-    wire [31:0] signImm = { {16 { instr[15] }}, instr[15:0] };
-    assign pcBranch = pcNext + signImm;
+    wire [31:0] signImm = (exControl) ? {{24 { exData[7] }}, exData[7:0] } 
+    : (~signExtend) ? { {16 { instr[15] }}, instr[15:0] } : { {16 {1'b0}}, instr[15:0] };
+	assign pcBranch = pcNext + signImm;
 
     //alu
     wire [31:0] srcB = aluSrc ? signImm : rd2;
 
     sm_alu alu
     (
-        .srcA       ( rd1          ),
+        .srcA       ( (exControl) ? 32'b0: rd1 ),
         .srcB       ( srcB         ),
         .oper       ( aluControl   ),
         .shift      ( instr[10:6 ] ),
@@ -89,7 +92,8 @@ module sm_cpu
         .regDst     ( regDst       ), 
         .regWrite   ( regWrite     ), 
         .aluSrc     ( aluSrc       ),
-        .aluControl ( aluControl   )
+        .aluControl ( aluControl   ),
+        .exControl	( exControl    )
     );
 
 endmodule
@@ -103,7 +107,8 @@ module sm_control
     output reg       regDst, 
     output reg       regWrite, 
     output reg       aluSrc,
-    output reg [3:0] aluControl
+    output reg [3:0] aluControl,
+    output reg		 exControl
 );
     reg          branch;
     reg          condZero;
@@ -116,6 +121,7 @@ module sm_control
         regWrite    = 1'b0;
         aluSrc      = 1'b0;
         aluControl  = `ALU_ADD;
+        exControl	= 1'b0;
 
         casez( {cmdOper,cmdFunk} )
             default               : ;
@@ -133,6 +139,7 @@ module sm_control
             { `C_BEQ,   `F_ANY  } : begin branch = 1'b1; condZero = 1'b1; aluControl = `ALU_SUBU; end
             { `C_BNE,   `F_ANY  } : begin branch = 1'b1; aluControl = `ALU_SUBU;    end
             { `C_BGEZ,  `F_ANY  } : begin branch = 1'b1; aluControl = `ALU_NOTNEG;  end
+            { `C_EXT,   `F_ANY  } : begin regWrite = 1'b1; aluSrc = 1'b1; exControl = 1'b1; aluControl = `ALU_ADD;	end
         endcase
     end
 endmodule
