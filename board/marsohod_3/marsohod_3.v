@@ -35,7 +35,6 @@ module marsohod_3(
 
 	 wire [11:0] seven_segments;
     assign IO[12:1] = seven_segments;
-    wire [31:0] our_h7segment = 32'b0000_0000_0000_0000_0000_0001_0010_0011;
     sm_hex_display_digit sm_hex_display_digit
     (
         .digit1 (digit1),
@@ -49,9 +48,9 @@ module marsohod_3(
     wire [6:0] digit2;
     wire [6:0] digit1;
 
-    sm_hex_display digit_02 (our_h7segment [3:0], digit3 [6:0]);
-    sm_hex_display digit_01 (our_h7segment [7:4], digit2 [6:0]);
-    sm_hex_display digit_00 (our_h7segment [11:8], digit1 [6:0]);
+    sm_hex_display digit_02 (regData [3:0], digit3 [6:0]);
+    sm_hex_display digit_01 (regData [7:4], digit2 [6:0]);
+    sm_hex_display digit_00 (regData [11:8], digit1 [6:0]);
 
 endmodule
 
